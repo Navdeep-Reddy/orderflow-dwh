@@ -1,0 +1,36 @@
+{
+  "input_rows": {
+    "customers": 7922,
+    "orders": 143240,
+    "total": 151162
+  },
+  "generation_seconds": 3.12,
+  "first_run": {
+    "status": "SUCCESS",
+    "seconds": 10.471,
+    "rows_per_second": 14436,
+    "reconciliation_passed": true,
+    "stages_seconds": {
+      "customers": {
+        "validate": 0.15,
+        "load": 0.24
+      },
+      "orders": {
+        "validate": 3.82,
+        "load": 5.32
+      }
+    }
+  },
+  "rerun_same_input_seconds": 0.447,
+  "forced_reload_seconds": 7.115,
+  "forced_reload_new_rows": 0,
+  "fact_rows": 50000,
+  "db_size_mb": 66.4,
+  "peak_rss_mb": 216.8,
+  "optimisation_scd2_lookup_index": {
+    "what": "point-in-time customer_key lookup for 5000 fact rows",
+    "with_index_seconds": 0.0064,
+    "without_index_seconds": 1.1552,
+    "speedup_x": 180.7
+  }
+}

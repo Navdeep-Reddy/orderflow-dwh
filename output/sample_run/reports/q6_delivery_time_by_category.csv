@@ -1,0 +1,7 @@
+category,delivered_lines,avg_hours_to_deliver,min_hours,max_hours
+Books,4,170.2,105.0,223.0
+Electronics,4,180.2,125.0,222.0
+Fashion,4,129.5,87.0,194.0
+Grocery,5,188.8,146.0,234.0
+Home,5,140.8,115.0,193.0
+Toys,5,156.6,108.0,210.0

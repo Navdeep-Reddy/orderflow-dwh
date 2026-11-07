@@ -1,0 +1,74 @@
+test_analytical_queries_all_run_on_an_empty_warehouse (tests.test_cli.Cli.test_analytical_queries_all_run_on_an_empty_warehouse) ... ok
+test_nonzero_exit_code_on_failure (tests.test_cli.Cli.test_nonzero_exit_code_on_failure) ... ok
+test_reject_file_is_exported (tests.test_cli.Cli.test_reject_file_is_exported) ... ok
+test_run_validate_report_flow (tests.test_cli.Cli.test_run_validate_report_flow) ... ok
+test_duplicates_malformed_and_invalid_records (tests.test_customers_scd2.CustomerSource.test_duplicates_malformed_and_invalid_records) ... ok
+test_empty_batch (tests.test_customers_scd2.CustomerSource.test_empty_batch) ... ok
+test_happy_path_and_scd2_versions (tests.test_customers_scd2.CustomerSource.test_happy_path_and_scd2_versions) ... ok
+test_noop_update_does_not_create_a_version (tests.test_customers_scd2.CustomerSource.test_noop_update_does_not_create_a_version) ... ok
+test_out_of_order_events_give_same_result_as_in_order (tests.test_customers_scd2.CustomerSource.test_out_of_order_events_give_same_result_as_in_order) ... ok
+test_schema_drift_in_every_record_trips_the_quality_gate (tests.test_customers_scd2.CustomerSource.test_schema_drift_in_every_record_trips_the_quality_gate) ... ok
+test_unexpected_extra_field_is_tolerated_and_reported (tests.test_customers_scd2.CustomerSource.test_unexpected_extra_field_is_tolerated_and_reported) ... ok
+test_late_arriving_customer_history_repoints_existing_facts (tests.test_customers_scd2.PointInTimeAndLateHistory.test_late_arriving_customer_history_repoints_existing_facts) ... ok
+test_late_event_that_merges_versions_removes_orphan_without_breaking_references (tests.test_customers_scd2.PointInTimeAndLateHistory.test_late_event_that_merges_versions_removes_orphan_without_breaking_references) ... ok
+test_order_older_than_first_known_version_maps_to_earliest_version (tests.test_customers_scd2.PointInTimeAndLateHistory.test_order_older_than_first_known_version_maps_to_earliest_version) ... ok
+test_order_resolves_to_the_customer_version_valid_at_order_time (tests.test_customers_scd2.PointInTimeAndLateHistory.test_order_resolves_to_the_customer_version_valid_at_order_time) ... ok
+test_surrogate_keys_are_deterministic (tests.test_customers_scd2.PointInTimeAndLateHistory.test_surrogate_keys_are_deterministic) ... ok
+test_conflicting_resend_across_batches_is_detected_by_reconciliation (tests.test_idempotency_recovery.Idempotency.test_conflicting_resend_across_batches_is_detected_by_reconciliation)
+Same event key, different payload in a LATER file: first write wins, and the ... ok
+test_forced_reload_inserts_no_duplicates (tests.test_idempotency_recovery.Idempotency.test_forced_reload_inserts_no_duplicates) ... ok
+test_overlapping_files_only_add_the_new_rows (tests.test_idempotency_recovery.Idempotency.test_overlapping_files_only_add_the_new_rows) ... ok
+test_rerun_of_same_input_is_skipped_and_changes_nothing (tests.test_idempotency_recovery.Idempotency.test_rerun_of_same_input_is_skipped_and_changes_nothing) ... ok
+test_same_content_under_a_different_filename_is_still_skipped (tests.test_idempotency_recovery.Idempotency.test_same_content_under_a_different_filename_is_still_skipped) ... ok
+test_backfill_of_historical_file_after_newer_data (tests.test_idempotency_recovery.PartialFailureAndRetry.test_backfill_of_historical_file_after_newer_data) ... ok
+test_crash_mid_load_rolls_back_everything_and_retry_succeeds (tests.test_idempotency_recovery.PartialFailureAndRetry.test_crash_mid_load_rolls_back_everything_and_retry_succeeds) ... ok
+test_one_source_failing_does_not_undo_the_other (tests.test_idempotency_recovery.PartialFailureAndRetry.test_one_source_failing_does_not_undo_the_other) ... ok
+test_domain_edge_cases (tests.test_orders_pipeline.OrdersDomainEdgeCases.test_domain_edge_cases) ... ok
+test_late_arriving_older_event_in_a_later_batch_keeps_history_not_state (tests.test_orders_pipeline.OrdersDomainEdgeCases.test_late_arriving_older_event_in_a_later_batch_keeps_history_not_state) ... ok
+test_out_of_order_events_within_one_file (tests.test_orders_pipeline.OrdersDomainEdgeCases.test_out_of_order_events_within_one_file) ... ok
+test_product_dimension_latest_event_wins_even_when_older_one_arrives_later (tests.test_orders_pipeline.OrdersDomainEdgeCases.test_product_dimension_latest_event_wins_even_when_older_one_arrives_later) ... ok
+test_exact_and_conflicting_duplicates_first_wins (tests.test_orders_pipeline.OrdersDuplicates.test_exact_and_conflicting_duplicates_first_wins) ... ok
+test_empty_batch_header_only (tests.test_orders_pipeline.OrdersEmptyAndMalformed.test_empty_batch_header_only) ... ok
+test_empty_batch_zero_byte_file (tests.test_orders_pipeline.OrdersEmptyAndMalformed.test_empty_batch_zero_byte_file) ... ok
+test_malformed_rows_are_quarantined_with_line_numbers (tests.test_orders_pipeline.OrdersEmptyAndMalformed.test_malformed_rows_are_quarantined_with_line_numbers) ... ok
+test_null_required_fields_rejected_null_category_accepted (tests.test_orders_pipeline.OrdersEmptyAndMalformed.test_null_required_fields_rejected_null_category_accepted) ... ok
+test_happy_path_loads_events_fact_and_dimensions (tests.test_orders_pipeline.OrdersHappyPath.test_happy_path_loads_events_fact_and_dimensions) ... ok
+test_run_metrics_are_recorded (tests.test_orders_pipeline.OrdersHappyPath.test_run_metrics_are_recorded) ... ok
+test_extra_column_is_tolerated_with_a_warning (tests.test_orders_pipeline.OrdersSchemaAndReferences.test_extra_column_is_tolerated_with_a_warning) ... ok
+test_invalid_reference_key_is_rejected_not_loaded (tests.test_orders_pipeline.OrdersSchemaAndReferences.test_invalid_reference_key_is_rejected_not_loaded) ... ok
+test_missing_input_file_fails_cleanly (tests.test_orders_pipeline.OrdersSchemaAndReferences.test_missing_input_file_fails_cleanly) ... ok
+test_missing_required_column_fails_source_and_loads_nothing (tests.test_orders_pipeline.OrdersSchemaAndReferences.test_missing_required_column_fails_source_and_loads_nothing) ... ok
+test_no_inputs_configured (tests.test_orders_pipeline.OrdersSchemaAndReferences.test_no_inputs_configured) ... ok
+test_reject_ratio_gate_blocks_load_but_keeps_quarantine (tests.test_orders_pipeline.OrdersSchemaAndReferences.test_reject_ratio_gate_blocks_load_but_keeps_quarantine) ... ok
+test_reordered_columns_still_load (tests.test_orders_pipeline.OrdersSchemaAndReferences.test_reordered_columns_still_load) ... ok
+test_clean_warehouse_passes_every_invariant (tests.test_reconciliation.Reconciliation.test_clean_warehouse_passes_every_invariant) ... ok
+test_detects_broken_derived_amount (tests.test_reconciliation.Reconciliation.test_detects_broken_derived_amount) ... ok
+test_detects_missing_fact_row (tests.test_reconciliation.Reconciliation.test_detects_missing_fact_row) ... ok
+test_detects_orphan_keys (tests.test_reconciliation.Reconciliation.test_detects_orphan_keys) ... ok
+test_detects_scd2_chain_problems (tests.test_reconciliation.Reconciliation.test_detects_scd2_chain_problems) ... ok
+test_detects_state_drift_from_latest_event (tests.test_reconciliation.Reconciliation.test_detects_state_drift_from_latest_event) ... ok
+test_detects_wrong_scd2_version_on_fact (tests.test_reconciliation.Reconciliation.test_detects_wrong_scd2_version_on_fact) ... ok
+test_results_are_persisted_for_audit (tests.test_reconciliation.Reconciliation.test_results_are_persisted_for_audit) ... ok
+test_checked_in_sample_matches_generator (tests.test_sample_data.GeneratorReproducibility.test_checked_in_sample_matches_generator)
+The committed sample must be exactly what `python -m orderflow generate` produces. ... ok
+test_different_seed_gives_different_data (tests.test_sample_data.GeneratorReproducibility.test_different_seed_gives_different_data) ... ok
+test_same_seed_gives_byte_identical_files (tests.test_sample_data.GeneratorReproducibility.test_same_seed_gives_byte_identical_files) ... ok
+test_checked_in_sample_dataset (tests.test_sample_data.LabelChecks.test_checked_in_sample_dataset) ... ok
+test_labels_are_not_embedded_in_inputs (tests.test_sample_data.LabelChecks.test_labels_are_not_embedded_in_inputs) ... ok
+test_larger_generated_datasets_with_different_seeds (tests.test_sample_data.LabelChecks.test_larger_generated_datasets_with_different_seeds) ... ok
+test_happy_path_normalises (tests.test_validate.CustomerValidation.test_happy_path_normalises) ... ok
+test_missing_key_entirely (tests.test_validate.CustomerValidation.test_missing_key_entirely) ... ok
+test_rejections (tests.test_validate.CustomerValidation.test_rejections) ... ok
+test_blank_category_is_allowed_and_defaulted (tests.test_validate.OrderValidation.test_blank_category_is_allowed_and_defaulted) ... ok
+test_domain_rules (tests.test_validate.OrderValidation.test_domain_rules) ... ok
+test_enums_and_id_formats (tests.test_validate.OrderValidation.test_enums_and_id_formats) ... ok
+test_happy_path_normalises_and_derives (tests.test_validate.OrderValidation.test_happy_path_normalises_and_derives) ... ok
+test_missing_and_blank_required_fields (tests.test_validate.OrderValidation.test_missing_and_blank_required_fields) ... ok
+test_price_boundaries (tests.test_validate.OrderValidation.test_price_boundaries) ... ok
+test_quantity_boundaries (tests.test_validate.OrderValidation.test_quantity_boundaries) ... ok
+test_timestamps (tests.test_validate.OrderValidation.test_timestamps) ... ok
+
+----------------------------------------------------------------------
+Ran 67 tests in 1.663s
+
+OK

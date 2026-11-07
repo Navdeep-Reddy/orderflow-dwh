@@ -1,0 +1,237 @@
+{
+  "run_id": "run_20261106T160358495668Z_3ff3c7",
+  "status": "SUCCESS",
+  "failure_reason": null,
+  "as_of": "2026-11-06T00:00:00Z",
+  "duration_seconds": 0.025,
+  "reconciliation_passed": true,
+  "sources": [
+    {
+      "source_name": "customers",
+      "source_file": "data/sample/customers.jsonl",
+      "file_sha256": "53d6451e75c87996af9fd8308c17e191a8d5169fa1cdc880828d079c08249162",
+      "status": "SUCCESS",
+      "rows_read": 46,
+      "rows_rejected": 11,
+      "rows_accepted": 35,
+      "rows_inserted_new": 35,
+      "rows_already_present": 0,
+      "expected_amount_minor": null,
+      "target_amount_minor": null,
+      "target_rows_found": 35,
+      "warnings": [],
+      "reject_reasons": {
+        "INVALID_ENUM": 3,
+        "INVALID_FORMAT": 2,
+        "MISSING_REQUIRED_FIELD": 2,
+        "DUPLICATE_EVENT": 1,
+        "INVALID_TIMESTAMP": 1,
+        "CONFLICTING_DUPLICATE": 1,
+        "MALFORMED_RECORD": 1
+      },
+      "failure_reason": null,
+      "started_at": "2026-11-06T16:03:58Z",
+      "ended_at": "2026-11-06T16:03:58Z",
+      "duration_seconds": 0.0032641659999974593,
+      "validate_seconds": 0.0009476050000003511,
+      "load_seconds": 0.0013430829999983018
+    },
+    {
+      "source_name": "orders",
+      "source_file": "data/sample/orders.csv",
+      "file_sha256": "683ba9167108d01ff2cfedccf1e7c79e2d463e9e3c2533ffefdf874eb66e5fde",
+      "status": "SUCCESS",
+      "rows_read": 115,
+      "rows_rejected": 24,
+      "rows_accepted": 91,
+      "rows_inserted_new": 91,
+      "rows_already_present": 0,
+      "expected_amount_minor": 2554967,
+      "target_amount_minor": 2554967,
+      "target_rows_found": 91,
+      "warnings": [],
+      "reject_reasons": {
+        "MALFORMED_RECORD": 3,
+        "OUT_OF_RANGE": 4,
+        "INVALID_FORMAT": 4,
+        "INVALID_ENUM": 3,
+        "CONFLICTING_DUPLICATE": 1,
+        "FUTURE_TIMESTAMP": 1,
+        "INVALID_TIMESTAMP": 2,
+        "INVALID_CUSTOMER_REF": 1,
+        "MISSING_REQUIRED_FIELD": 1,
+        "DUPLICATE_EVENT": 3,
+        "STATUS_BEFORE_ORDER": 1
+      },
+      "failure_reason": null,
+      "started_at": "2026-11-06T16:03:58Z",
+      "ended_at": "2026-11-06T16:03:58Z",
+      "duration_seconds": 0.005682583999998769,
+      "validate_seconds": 0.002949243999999851,
+      "load_seconds": 0.0020362110000000655
+    }
+  ],
+  "reconciliation": [
+    {
+      "name": "customers.rows_read = rejected + accepted",
+      "expected": 46,
+      "actual": 46,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "customers.accepted = inserted_new + already_present",
+      "expected": 35,
+      "actual": 35,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "customers.accepted_keys_present_in_target_with_same_payload",
+      "expected": 35,
+      "actual": 35,
+      "passed": true,
+      "detail": "detects silent drops and conflicting re-sends"
+    },
+    {
+      "name": "customers.rejects_persisted_and_traceable",
+      "expected": 11,
+      "actual": 11,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "customers.rejects_have_file_line_raw",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "orders.rows_read = rejected + accepted",
+      "expected": 115,
+      "actual": 115,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "orders.accepted = inserted_new + already_present",
+      "expected": 91,
+      "actual": 91,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "orders.accepted_keys_present_in_target_with_same_payload",
+      "expected": 91,
+      "actual": 91,
+      "passed": true,
+      "detail": "detects silent drops and conflicting re-sends"
+    },
+    {
+      "name": "orders.rejects_persisted_and_traceable",
+      "expected": 24,
+      "actual": 24,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "orders.rejects_have_file_line_raw",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "orders.sum(line_amount) source = target",
+      "expected": 2554967,
+      "actual": 2554967,
+      "passed": true,
+      "detail": "key aggregate in minor units"
+    },
+    {
+      "name": "fact.rows = distinct order lines in event history",
+      "expected": 40,
+      "actual": 40,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fact.no_orphan_customer_key",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fact.no_orphan_product_key",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fact.no_orphan_date_key",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fact.state = latest event (status mismatches)",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fact.sum(line_amount) = sum(quantity*unit_price)",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fact.customer_key is the version valid at order_ts",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "dim_customer.exactly_one_current_per_customer",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "dim_customer.no_gaps_or_overlaps",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "dim_customer.chain_contiguous",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "dim_customer.pk_unique (customer_id, valid_from)",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "dim_product.unique_product_code",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+category,currency,product_code,product_name,net_revenue,rnk
+Books,EUR,P0010,Product 10,0.0,1
+Books,INR,P0010,Product 10,1083.0,1
+Books,INR,P0004,Product 4,437.37,2
+Electronics,EUR,P0012,Product 12,142.62,1
+Electronics,INR,P0006,Product 6,1212.6,1
+Electronics,INR,P0012,Product 12,142.62,2
+Electronics,USD,P0006,Product 6,1212.6,1
+Electronics,USD,P0012,Product 12,47.54,2
+Fashion,EUR,P0003,Product 3,695.55,1
+Fashion,EUR,P0009,Product 9,326.42,2
+Fashion,INR,P0009,Product 9,1305.68,1
+Fashion,INR,P0003,Product 3,1159.25,2
+Fashion,USD,P0009,Product 9,326.42,1
+Grocery,EUR,P0008,Product 8,99.72,1
+Grocery,INR,P0008,Product 8,199.44,1
+Grocery,USD,P0002,Product 2,185.12,1
+Home,INR,P0001,Product 1,283.8,1
+Home,USD,P0007,Product 7,428.13,1
+Toys,EUR,P0011,Product 11,8.36,1
+Toys,INR,P0005,Product 5,115.86,1
+Toys,INR,P0011,Product 11,16.72,2
+Toys,USD,P0005,Product 5,115.86,1
+Toys,USD,P0011,Product 11,50.16,2

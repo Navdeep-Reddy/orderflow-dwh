@@ -1,0 +1,88 @@
+### 1. First run (customers + orders)
+{
+  "run_id": "run_20261106T160358495668Z_3ff3c7",
+  "status": "SUCCESS",
+  "failure_reason": null,
+  "duration_seconds": 0.025,
+  "reconciliation_passed": true
+}
+  customers  SUCCESS                  read=46      accepted=35      rejected=11     new=35      already_present=0      reasons={'INVALID_ENUM': 3, 'INVALID_FORMAT': 2, 'MISSING_REQUIRED_FIELD': 2, 'DUPLICATE_EVENT': 1, 'INVALID_TIMESTAMP': 1, 'CONFLICTING_DUPLICATE': 1, 'MALFORMED_RECORD': 1}
+  orders     SUCCESS                  read=115     accepted=91      rejected=24     new=91      already_present=0      reasons={'MALFORMED_RECORD': 3, 'OUT_OF_RANGE': 4, 'INVALID_FORMAT': 4, 'INVALID_ENUM': 3, 'CONFLICTING_DUPLICATE': 1, 'FUTURE_TIMESTAMP': 1, 'INVALID_TIMESTAMP': 2, 'INVALID_CUSTOMER_REF': 1, 'MISSING_REQUIRED_FIELD': 1, 'DUPLICATE_EVENT': 3, 'STATUS_BEFORE_ORDER': 1}
+
+### 2. Rerun of identical input (idempotent: both sources skipped)
+{
+  "run_id": "run_20261106T160358610694Z_3ff3c7",
+  "status": "SUCCESS",
+  "failure_reason": null,
+  "duration_seconds": 0.01,
+  "reconciliation_passed": true
+}
+  customers  SKIPPED_ALREADY_LOADED   read=0       accepted=0       rejected=0      new=0       already_present=0      reasons={}
+  orders     SKIPPED_ALREADY_LOADED   read=0       accepted=0       rejected=0      new=0       already_present=0      reasons={}
+
+### 3. Forced reload (no duplicates: new=0)
+{
+  "run_id": "run_20261106T160358708544Z_3ff3c7",
+  "status": "SUCCESS",
+  "failure_reason": null,
+  "duration_seconds": 0.021,
+  "reconciliation_passed": true
+}
+  customers  SUCCESS                  read=46      accepted=35      rejected=11     new=0       already_present=35     reasons={'INVALID_ENUM': 3, 'INVALID_FORMAT': 2, 'MISSING_REQUIRED_FIELD': 2, 'DUPLICATE_EVENT': 1, 'INVALID_TIMESTAMP': 1, 'CONFLICTING_DUPLICATE': 1, 'MALFORMED_RECORD': 1}
+  orders     SUCCESS                  read=115     accepted=91      rejected=24     new=0       already_present=91     reasons={'MALFORMED_RECORD': 3, 'OUT_OF_RANGE': 4, 'INVALID_FORMAT': 4, 'INVALID_ENUM': 3, 'CONFLICTING_DUPLICATE': 1, 'FUTURE_TIMESTAMP': 1, 'INVALID_TIMESTAMP': 2, 'INVALID_CUSTOMER_REF': 1, 'MISSING_REQUIRED_FIELD': 1, 'DUPLICATE_EVENT': 3, 'STATUS_BEFORE_ORDER': 1}
+
+### 4. Late-arriving batch (older events; history grows, current state unchanged)
+{
+  "run_id": "run_20261106T160358821481Z_b09b2b",
+  "status": "SUCCESS",
+  "failure_reason": null,
+  "duration_seconds": 0.013,
+  "reconciliation_passed": true
+}
+  orders     SUCCESS                  read=17      accepted=17      rejected=0      new=17      already_present=0      reasons={}
+
+### 5. Edge case: empty batch
+{
+  "run_id": "run_20261106T160358922678Z_64083f",
+  "status": "SUCCESS",
+  "failure_reason": null,
+  "duration_seconds": 0.012,
+  "reconciliation_passed": true
+}
+  orders     SUCCESS                  read=0       accepted=0       rejected=0      new=0       already_present=0      reasons={}
+
+### 6. Edge case: unexpected schema change (required column renamed) -> exit code
+2026-11-06 16:03:59,027 ERROR source failed run_id=run_20261106T160359023883Z_8a7e18 source=orders reason=SCHEMA_ERROR: missing required column(s) ['unit_price']; got header ['order_id', 'line_no', 'customer_id', 'product_code', 'product_name', 'category', 'quantity', 'price', 'currency', 'order_ts', 'status', 'status_ts']
+{
+  "run_id": "run_20261106T160359023883Z_8a7e18",
+  "status": "FAILED",
+  "failure_reason": "orders: SCHEMA_ERROR: missing required column(s) ['unit_price']; got header ['order_id', 'line_no', 'customer_id', 'product_code', 'product_name', 'category', 'quantity', 'price', 'currency', 'order_ts', 'status', 'status_ts']",
+  "duration_seconds": 0.01,
+  "reconciliation_passed": true
+}
+  orders     FAILED                   read=0       accepted=0       rejected=0      new=0       already_present=0      reasons={}
+exit code: 1
+
+### 7. Edge case: extra column (tolerated, warned)
+{
+  "run_id": "run_20261106T160359123337Z_8c4e11",
+  "status": "SUCCESS",
+  "failure_reason": null,
+  "duration_seconds": 0.012,
+  "reconciliation_passed": true
+}
+  orders     SUCCESS                  read=1       accepted=1       rejected=0      new=1       already_present=0      reasons={}
+
+### 8. Validation of warehouse invariants
+[PASS] fact.rows = distinct order lines in event history: expected=40 actual=40
+[PASS] fact.no_orphan_customer_key: expected=0 actual=0
+[PASS] fact.no_orphan_product_key: expected=0 actual=0
+[PASS] fact.no_orphan_date_key: expected=0 actual=0
+[PASS] fact.state = latest event (status mismatches): expected=0 actual=0
+[PASS] fact.sum(line_amount) = sum(quantity*unit_price): expected=0 actual=0
+[PASS] fact.customer_key is the version valid at order_ts: expected=0 actual=0
+[PASS] dim_customer.exactly_one_current_per_customer: expected=0 actual=0
+[PASS] dim_customer.no_gaps_or_overlaps: expected=0 actual=0
+[PASS] dim_customer.chain_contiguous: expected=0 actual=0
+[PASS] dim_customer.pk_unique (customer_id, valid_from): expected=0 actual=0
+[PASS] dim_product.unique_product_code: expected=0 actual=0

@@ -1,0 +1,86 @@
+[
+  {
+    "name": "fact.rows = distinct order lines in event history",
+    "expected": 40,
+    "actual": 40,
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "fact.no_orphan_customer_key",
+    "expected": 0,
+    "actual": 0,
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "fact.no_orphan_product_key",
+    "expected": 0,
+    "actual": 0,
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "fact.no_orphan_date_key",
+    "expected": 0,
+    "actual": 0,
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "fact.state = latest event (status mismatches)",
+    "expected": 0,
+    "actual": 0,
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "fact.sum(line_amount) = sum(quantity*unit_price)",
+    "expected": 0,
+    "actual": 0,
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "fact.customer_key is the version valid at order_ts",
+    "expected": 0,
+    "actual": 0,
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "dim_customer.exactly_one_current_per_customer",
+    "expected": 0,
+    "actual": 0,
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "dim_customer.no_gaps_or_overlaps",
+    "expected": 0,
+    "actual": 0,
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "dim_customer.chain_contiguous",
+    "expected": 0,
+    "actual": 0,
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "dim_customer.pk_unique (customer_id, valid_from)",
+    "expected": 0,
+    "actual": 0,
+    "passed": true,
+    "detail": ""
+  },
+  {
+    "name": "dim_product.unique_product_code",
+    "expected": 0,
+    "actual": 0,
+    "passed": true,
+    "detail": ""
+  }
+]

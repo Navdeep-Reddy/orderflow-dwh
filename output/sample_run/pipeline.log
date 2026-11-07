@@ -1,0 +1,1 @@
+2026-11-06 16:03:59,027 ERROR source failed run_id=run_20261106T160359023883Z_8a7e18 source=orders reason=SCHEMA_ERROR: missing required column(s) ['unit_price']; got header ['order_id', 'line_no', 'customer_id', 'product_code', 'product_name', 'category', 'quantity', 'price', 'currency', 'order_ts', 'status', 'status_ts']

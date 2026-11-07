@@ -1,0 +1,11 @@
+run_id,run_status,source_name,source_status,rows_read,rows_accepted,rows_rejected,rows_inserted_new,rows_already_present,duration_seconds,failure_reason
+run_20261106T160358495668Z_3ff3c7,SUCCESS,customers,SUCCESS,46,35,11,35,0,0.003,
+run_20261106T160358610694Z_3ff3c7,SUCCESS,customers,SKIPPED_ALREADY_LOADED,0,0,0,0,0,0.0,
+run_20261106T160358708544Z_3ff3c7,SUCCESS,customers,SUCCESS,46,35,11,0,35,0.003,
+run_20261106T160358495668Z_3ff3c7,SUCCESS,orders,SUCCESS,115,91,24,91,0,0.006,
+run_20261106T160358610694Z_3ff3c7,SUCCESS,orders,SKIPPED_ALREADY_LOADED,0,0,0,0,0,0.0,
+run_20261106T160358708544Z_3ff3c7,SUCCESS,orders,SUCCESS,115,91,24,0,91,0.007,
+run_20261106T160358821481Z_b09b2b,SUCCESS,orders,SUCCESS,17,17,0,17,0,0.003,
+run_20261106T160358922678Z_64083f,SUCCESS,orders,SUCCESS,0,0,0,0,0,0.002,
+run_20261106T160359023883Z_8a7e18,FAILED,orders,FAILED,0,0,0,0,0,0.001,"SCHEMA_ERROR: missing required column(s) ['unit_price']; got header ['order_id', 'line_no', 'customer_id', 'product_code', 'product_name', 'category', 'quantity', 'price', 'currency', 'order_ts', 'status', 'status_ts']"
+run_20261106T160359123337Z_8c4e11,SUCCESS,orders,SUCCESS,1,1,0,1,0,0.002,

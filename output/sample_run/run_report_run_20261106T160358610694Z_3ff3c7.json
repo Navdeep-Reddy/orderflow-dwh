@@ -1,0 +1,144 @@
+{
+  "run_id": "run_20261106T160358610694Z_3ff3c7",
+  "status": "SUCCESS",
+  "failure_reason": null,
+  "as_of": "2026-11-06T00:00:00Z",
+  "duration_seconds": 0.01,
+  "reconciliation_passed": true,
+  "sources": [
+    {
+      "source_name": "customers",
+      "source_file": "data/sample/customers.jsonl",
+      "file_sha256": "53d6451e75c87996af9fd8308c17e191a8d5169fa1cdc880828d079c08249162",
+      "status": "SKIPPED_ALREADY_LOADED",
+      "rows_read": 0,
+      "rows_rejected": 0,
+      "rows_accepted": 0,
+      "rows_inserted_new": 0,
+      "rows_already_present": 0,
+      "expected_amount_minor": null,
+      "target_amount_minor": null,
+      "target_rows_found": null,
+      "warnings": [
+        "identical content already loaded by run_20261106T160358495668Z_3ff3c7"
+      ],
+      "reject_reasons": {},
+      "failure_reason": null,
+      "started_at": "2026-11-06T16:03:58Z",
+      "ended_at": "2026-11-06T16:03:58Z",
+      "duration_seconds": 0.0,
+      "validate_seconds": 0.0,
+      "load_seconds": 0.0
+    },
+    {
+      "source_name": "orders",
+      "source_file": "data/sample/orders.csv",
+      "file_sha256": "683ba9167108d01ff2cfedccf1e7c79e2d463e9e3c2533ffefdf874eb66e5fde",
+      "status": "SKIPPED_ALREADY_LOADED",
+      "rows_read": 0,
+      "rows_rejected": 0,
+      "rows_accepted": 0,
+      "rows_inserted_new": 0,
+      "rows_already_present": 0,
+      "expected_amount_minor": null,
+      "target_amount_minor": null,
+      "target_rows_found": null,
+      "warnings": [
+        "identical content already loaded by run_20261106T160358495668Z_3ff3c7"
+      ],
+      "reject_reasons": {},
+      "failure_reason": null,
+      "started_at": "2026-11-06T16:03:58Z",
+      "ended_at": "2026-11-06T16:03:58Z",
+      "duration_seconds": 0.0,
+      "validate_seconds": 0.0,
+      "load_seconds": 0.0
+    }
+  ],
+  "reconciliation": [
+    {
+      "name": "fact.rows = distinct order lines in event history",
+      "expected": 40,
+      "actual": 40,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fact.no_orphan_customer_key",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fact.no_orphan_product_key",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fact.no_orphan_date_key",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fact.state = latest event (status mismatches)",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fact.sum(line_amount) = sum(quantity*unit_price)",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "fact.customer_key is the version valid at order_ts",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "dim_customer.exactly_one_current_per_customer",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "dim_customer.no_gaps_or_overlaps",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "dim_customer.chain_contiguous",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "dim_customer.pk_unique (customer_id, valid_from)",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "dim_product.unique_product_code",
+      "expected": 0,
+      "actual": 0,
+      "passed": true,
+      "detail": ""
+    }
+  ]
+}
