@@ -1,0 +1,195 @@
+{
+  "seed": 42,
+  "params": {
+    "customers": 25,
+    "order_lines": 40,
+    "invalid_rate": 0.15,
+    "dup_rate": 0.04,
+    "late_fraction": 0.3
+  },
+  "customers": {
+    "file": "customers.jsonl",
+    "total_rows": 46,
+    "expected_accepted": 35,
+    "expected_rejects": [
+      {
+        "line": 4,
+        "reason": "INVALID_ENUM"
+      },
+      {
+        "line": 6,
+        "reason": "INVALID_FORMAT"
+      },
+      {
+        "line": 12,
+        "reason": "MISSING_REQUIRED_FIELD"
+      },
+      {
+        "line": 17,
+        "reason": "INVALID_ENUM"
+      },
+      {
+        "line": 19,
+        "reason": "DUPLICATE_EVENT"
+      },
+      {
+        "line": 23,
+        "reason": "INVALID_ENUM"
+      },
+      {
+        "line": 26,
+        "reason": "MISSING_REQUIRED_FIELD"
+      },
+      {
+        "line": 32,
+        "reason": "INVALID_TIMESTAMP"
+      },
+      {
+        "line": 34,
+        "reason": "CONFLICTING_DUPLICATE"
+      },
+      {
+        "line": 39,
+        "reason": "MALFORMED_RECORD"
+      },
+      {
+        "line": 40,
+        "reason": "INVALID_FORMAT"
+      }
+    ]
+  },
+  "orders": {
+    "file": "orders.csv",
+    "total_rows": 115,
+    "expected_accepted": 91,
+    "expected_rejects": [
+      {
+        "line": 6,
+        "reason": "MALFORMED_RECORD"
+      },
+      {
+        "line": 7,
+        "reason": "OUT_OF_RANGE"
+      },
+      {
+        "line": 13,
+        "reason": "INVALID_FORMAT"
+      },
+      {
+        "line": 16,
+        "reason": "MALFORMED_RECORD"
+      },
+      {
+        "line": 23,
+        "reason": "INVALID_ENUM"
+      },
+      {
+        "line": 30,
+        "reason": "CONFLICTING_DUPLICATE"
+      },
+      {
+        "line": 37,
+        "reason": "MALFORMED_RECORD"
+      },
+      {
+        "line": 39,
+        "reason": "FUTURE_TIMESTAMP"
+      },
+      {
+        "line": 42,
+        "reason": "INVALID_TIMESTAMP"
+      },
+      {
+        "line": 49,
+        "reason": "INVALID_CUSTOMER_REF"
+      },
+      {
+        "line": 52,
+        "reason": "INVALID_ENUM"
+      },
+      {
+        "line": 54,
+        "reason": "INVALID_FORMAT"
+      },
+      {
+        "line": 57,
+        "reason": "INVALID_FORMAT"
+      },
+      {
+        "line": 69,
+        "reason": "OUT_OF_RANGE"
+      },
+      {
+        "line": 71,
+        "reason": "MISSING_REQUIRED_FIELD"
+      },
+      {
+        "line": 77,
+        "reason": "DUPLICATE_EVENT"
+      },
+      {
+        "line": 79,
+        "reason": "INVALID_ENUM"
+      },
+      {
+        "line": 94,
+        "reason": "INVALID_FORMAT"
+      },
+      {
+        "line": 97,
+        "reason": "OUT_OF_RANGE"
+      },
+      {
+        "line": 100,
+        "reason": "STATUS_BEFORE_ORDER"
+      },
+      {
+        "line": 102,
+        "reason": "DUPLICATE_EVENT"
+      },
+      {
+        "line": 109,
+        "reason": "DUPLICATE_EVENT"
+      },
+      {
+        "line": 113,
+        "reason": "INVALID_TIMESTAMP"
+      },
+      {
+        "line": 116,
+        "reason": "OUT_OF_RANGE"
+      }
+    ]
+  },
+  "orders_late": {
+    "file": "orders_late.csv",
+    "total_rows": 17,
+    "expected_new_events": 17
+  },
+  "expected_aggregates": {
+    "order_lines": 40,
+    "final_status_counts": {
+      "CANCELLED": 6,
+      "DELIVERED": 23,
+      "PLACED": 3,
+      "RETURNED": 4,
+      "SHIPPED": 4
+    },
+    "net_revenue_minor_by_currency": {
+      "EUR": 127267,
+      "INR": 595634,
+      "USD": 236583
+    },
+    "net_revenue_minor_by_segment_at_order_time": {
+      "ENTERPRISE|EUR": 108019,
+      "ENTERPRISE|INR": 103318,
+      "ENTERPRISE|USD": 80209,
+      "RETAIL|EUR": 19248,
+      "RETAIL|INR": 492316,
+      "RETAIL|USD": 71354,
+      "SMB|USD": 85020
+    },
+    "customers": 25,
+    "dim_customer_versions": 35
+  }
+}

@@ -1,0 +1,2 @@
+order_id,line_no,customer_id,product_code,product_name,category,quantity,price,currency,order_ts,status,status_ts
+ORD-00000001,1,C000001,P0001,Widget,Tools,2,10.50,INR,2026-02-01T10:00:00Z,PLACED,2026-02-01T10:00:00Z
