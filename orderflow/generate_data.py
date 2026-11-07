@@ -117,7 +117,8 @@ def _generate_customers(rng, n_customers, invalid_rate, dup_rate, out_dir: Path)
 
     items.sort(key=lambda it: it["key"])
     path = out_dir / "customers.jsonl"
-    path.write_text("\n".join(it["text"] for it in items) + "\n", encoding="utf-8")
+    with open(path, "w", encoding="utf-8", newline="\n") as f:   # always LF, also on Windows
+        f.write("\n".join(it["text"] for it in items) + "\n")
     rejects = [{"line": i + 1, "reason": it["label"]} for i, it in enumerate(items) if it["label"]]
     by_cust: dict = {}
     for v in valid:
@@ -308,7 +309,8 @@ def generate(out_dir, n_customers=25, n_order_lines=40, seed=42, invalid_rate=0.
         "orders_late": late_meta,
         "expected_aggregates": _expected_aggregates(truth, by_cust),
     }
-    (out_dir / "expected" / "expected_labels.json").write_text(json.dumps(labels, indent=2), encoding="utf-8")
+    with open(out_dir / "expected" / "expected_labels.json", "w", encoding="utf-8", newline="\n") as f:
+        f.write(json.dumps(labels, indent=2))
     return labels
 
 
