@@ -2,3 +2,13 @@ __pycache__/
 *.pyc
 output/warehouse.db*
 output/benchmark/data/
+output/benchmark/bench.db*
+output/benchmark/data/
+output/pipeline.log
+output/run_report_*.json
+output/rejects_*.csv
+output/validation_report.json
+output/reports/
+output/benchmark/run_report_*
+output/benchmark/rejects_*
+output/benchmark/pipeline.log
