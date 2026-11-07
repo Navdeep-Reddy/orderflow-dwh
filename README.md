@@ -25,6 +25,15 @@ make validate report              # invariants + output/reports/analytical_repor
 make bench                        # ~150k rows (see numbers below)
 ```
 Without `make`: `python3 -m orderflow run --customers data/sample/customers.jsonl --orders data/sample/orders.csv`.
+
+**Windows (no `make`)** — run these in PowerShell or the VS Code terminal, one at a time:
+```
+python -m unittest discover -s tests -t .
+python -m orderflow run --customers data\sample\customers.jsonl --orders data\sample\orders.csv --as-of 2026-11-06T00:00:00Z
+python -m orderflow validate
+python -m orderflow report
+python -m orderflow benchmark --customers 100000 --order-lines 100000
+```
 CLI: `generate | run | validate | report | benchmark` (`python3 -m orderflow <cmd> -h`).
 Exit codes: `0` ok · `1` a source/run failed · `2` loaded but a reconciliation check failed.
 
@@ -55,7 +64,29 @@ offsets are normalised) · money stored as integer minor units (no floats) · de
 `order_line_key = ol_sha1(order_id|line_no)` · every row carries `run_id` and `source_file` (+ source line).
 `run_id = run_<UTC timestamp>_<input fingerprint>`.
 
-## Key assumptions
+## Key assumptions ## Entities and relationships
+```
+ dim_customer (SCD2)        dim_product (SCD1)         dim_date
+ PK customer_key            PK product_key             PK date_key
+ customer_id + valid_from   product_code (unique)      full_date, year, month ...
+        ▲                          ▲                          ▲
+        │ customer_key             │ product_key              │ date_key
+        └──────────────── fact_order_line ────────────────────┘
+                 grain: one order line (order_id, line_no)
+                 PK order_line_key · latest status · amount in minor units
+                              ▲
+                              │ derived from (latest status_ts)
+                      order_line_event  — every status change, append-only history
+                      PK (order_id, line_no, status_ts)
+
+ stg_customer_event — every customer change, append-only → rebuilds dim_customer
+ PK (customer_id, updated_at)
+```
+* **Relationships:** one customer → many orders; one order → many lines; one product → many lines. A line points to the customer *version* valid when the order was placed.
+* **Keys and grain:** customer event = (customer_id, updated_at); order event = (order_id, line_no, status_ts); fact row = (order_id, line_no).
+* **Derived fields:** `line_amount_minor = quantity × unit_price_minor`, `is_net_revenue`, `date_key`, SCD2 `valid_to` / `is_current`.
+* **Integrity:** enforced by foreign keys and by reconciliation checks. Details are in `docs/DATA_DICTIONARY.md`.
+
 * Orders and customers arrive as files; each order row is a **status event** for an order line
   (key `order_id, line_no, status_ts`). Fact grain = one order line, showing its latest status.
 * A customer exists only after its first valid change event; orders for unknown customers are rejected (`INVALID_CUSTOMER_REF`).
@@ -82,12 +113,13 @@ customers: 46 read → 35 accepted / 11 rejected · orders: 115 read → 91 / 24
 by (line, reason) · fact, status counts, net revenue per currency, revenue by segment-at-order-time and
 SCD2 version count equal the independently derived expected values (`test_sample_data`).
 
-## Performance (`make bench`, 1 vCPU sandbox)
-151,162 input rows (7.9k customer events, 143k order events → 50k order lines):
-first run **10.5 s ≈ 14.4k rows/s** (orders: validate 3.8 s, load 5.3 s) · rerun of same input 0.45 s ·
-forced re-load 7.1 s, 0 new rows · DB 66 MB · peak RSS ≈ 217 MB.
+## Performance (`python -m orderflow benchmark --customers 100000 --order-lines 100000`, Windows laptop, Python 3.10)
+444,530 input rows (100,000 customers → 157,149 customer events; 287,381 order events → 100,000 order lines):
+first run **84 s ≈ 5.3k rows/s** (orders: validate 13 s, load 41 s; customers: validate 3 s, load 15 s) ·
+rerun of same input 6.3 s (skipped) · forced re-load 48 s, **0 new rows** (idempotent) · DB 207 MB · reconciliation passed.
+(An earlier run on a faster Linux machine took 24 s for the same data, so absolute speed depends on hardware.)
 **Optimisation measured:** composite index `dim_customer(customer_id, valid_from)` makes the SCD2
-point-in-time lookup **~180× faster** (1.16 s → 0.006 s for 5,000 facts). Other next steps: stream-validate
+point-in-time lookup **~1,150× faster** (107 s → 0.09 s for 5,000 facts). Other next steps: stream-validate
 instead of holding accepted rows in memory; `executemany` is already batched (`--batch-size`).
 
 ## Known limitations / next steps
@@ -96,6 +128,7 @@ instead of holding accepted rows in memory; `executemany` is already batched (`-
 * Same event key re-sent later with a different payload is **detected** (reconciliation fails, exit 2) but not auto-resolved.
 * SQLite is single-writer; a production target would be a warehouse (the SQL is standard apart from upsert syntax).
 * No FX conversion; no orchestration scheduler (run the CLI from cron/Airflow); no PII handling beyond synthetic data.
+* Monitoring is file- and table-based (structured logs, `pipeline_run` / `run_source` tables, run reports, exit codes). There is no alerting, dashboard or scheduler; in production, alerts would be driven from the run tables.
 
 ## AI usage (transparent disclosure)
 Built with Claude (claude.ai chat) as the only AI tool. The first full version of the code, tests and docs was AI-generated

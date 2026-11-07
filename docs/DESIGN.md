@@ -26,7 +26,7 @@ Structured log lines (`run_id`, source, counts, seconds) to stderr and `output/p
 Per source: `read = rejected + accepted`, `accepted = new + already_present`, every accepted key is present in the target **with identical payload**, reject rows persisted and traceable, and (orders) `Σ line_amount` source = target. Warehouse-wide: fact = distinct lines in history, no orphan keys, fact state = latest event, SCD2 one-current / contiguous / non-overlapping, `customer_key` is the version valid at `order_ts`.
 
 ## Performance
-See README. Bottlenecks are the SQLite load (~55 %) and Python row validation (~40 %). Measured optimisation: composite index for the SCD2 lookup (≈180×). Further options: chunked streaming validation, `PRAGMA synchronous=NORMAL` with WAL (already WAL), multiprocessing for validation.
+See README. Bottlenecks are the SQLite load (~55 %) and Python row validation (~40 %). Measured optimisation: composite index for the SCD2 lookup (≈1150×). Further options: chunked streaming validation, `PRAGMA synchronous=NORMAL` with WAL (already WAL), multiprocessing for validation.
 
 ## Limitations
 First-write-wins for conflicting re-sends across batches (detected, not resolved); late-arriving customers are not auto-replayed for already-rejected orders; single-writer SQLite; no FX; synthetic data only.
