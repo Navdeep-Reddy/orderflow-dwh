@@ -1,0 +1,57 @@
+[Verbatim text of the project brief attached to prompt 1]
+
+Business Context / Problem
+Deliver a complete small platform that ingests two sources, validates and transforms data, loads a dimensional model, exposes analytical queries, and includes monitoring, tests, and documentation.
+
+Objective and Scope
+Deliver a working Data Engineering solution within 72 hours for: Deliver a complete small platform that ingests two sources, validates and transforms data, loads a dimensional model, exposes analytical queries, and includes monitoring, tests, and documentation. The solution should be runnable locally or in a clearly documented cloud environment, expose failures and data-quality issues, and produce measurable outputs. Target level: 0–3 years of experience. Prioritize correctness, clear design, maintainability, and evidence of testing over unnecessary complexity.
+
+Primary Actors / Systems
+Data engineer, source system or file/API producer, storage/processing layer, target analytical consumer, and pipeline operator.
+
+Business Workflow and Rules
+1. Define source and target schemas, data types, keys, and assumptions.
+2. Generate or provide a small reproducible sample dataset and a larger scalable dataset generator.
+3. Implement ingestion, validation, transformation, and target publishing.
+4. Make reruns safe; record run status, row counts, rejects, and errors.
+5. Include automated tests and demonstrate expected results with sample queries or reports.
+
+Entities and Relationships
+Identify the source entities and their keys, relationships, grain, and important business rules. Document nullability, uniqueness, referential integrity, and any derived fields. Keep rejected or anomalous records traceable to their source. Where history matters, preserve change or event history instead of silently overwriting it.
+
+ID / Nomenclature Conventions
+Use stable, deterministic IDs; consistent snake_case table and column names; ISO-8601 timestamps; and explicit run_id / source_file fields where applicable. Document naming choices in the README.
+
+Implementation Instructions (Granular)
+Step 1 — Write a concise README, data dictionary, architecture diagram or flow description, and setup instructions.
+Step 2 — Implement the core pipeline with clear modules/functions and configurable paths or parameters.
+Step 3 — Add schema validation, business-rule checks, duplicate handling, and an explicit reject/quarantine path.
+Step 4 — Add logging and operational metrics: run ID, start/end time, input/output counts, rejected count, and failure reason.
+Step 5 — Add automated tests for the happy path, empty input, malformed records, duplicates, nulls, and at least two domain-specific edge cases.
+Step 6 — Make the load idempotent and document retry, restart, and backfill behavior where applicable.
+Step 7 — Provide reproducible sample data; use synthetic data unless public data has clear reuse rights. Keep any expected-answer labels separate from input data.
+Step 8 — Demonstrate output correctness with reconciliation queries, assertions, or a validation report.
+Step 9 — Include a simple performance measurement and identify one reasonable optimization.
+Step 10 — Submit source code, tests, sample input/output, README, schema/data dictionary, and a short design/trade-off note.
+
+Suggested Volume and Coverage
+Support a small starter sample for quick review and a configurable larger run (for example, 100,000+ records where practical). Include normal data, boundary values, duplicate records, missing values, late or out-of-order data where relevant, and deliberately labelled invalid records. Use a fixed random seed for reproducibility.
+
+Required Edge Cases / Negative Scenarios
+Malformed input; missing required field; duplicate key/event; unexpected schema change; empty batch; partial failure and retry; late-arriving or out-of-order data where relevant; invalid reference key; and rerun of the same input.
+
+Validation Rules / Acceptance Criteria
+Primary keys and referential integrity are checked; transformation rules are deterministic; source-to-target counts and key aggregates reconcile or explain differences; invalid records are traceable; reruns do not create unintended duplicates; tests pass; setup and run instructions work from a clean environment.
+
+Evaluation Focus
+Correctness and data quality (30%); pipeline design and code clarity (20%); testing and edge-case handling (20%); idempotency, recovery, and observability (15%); performance reasoning (10%); documentation and reproducibility (5%). Candidates should explain design choices and limitations.
+
+72-Hour Deliverables
+1. Working source code and dependency/setup files.
+2. Reproducible sample data or generator.
+3. Automated tests and execution evidence.
+4. Output dataset/report plus reconciliation results.
+5. README covering architecture, assumptions, run instructions, known limitations, and possible next steps.
+
+Scope Guidance
+A complete, tested vertical slice is preferred over an unfinished enterprise-scale implementation. External services are optional; provide a local mock or clear setup instructions if credentials are required. Do not commit secrets or use data that you are not authorized to access.
