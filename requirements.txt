@@ -1,0 +1,2 @@
+# Runtime: Python 3.10+ standard library only (sqlite3 >= 3.35 for upsert/window functions).
+# Tests use the stdlib `unittest`; they also run unchanged under pytest if you have it.
