@@ -3,7 +3,10 @@ quantify one optimisation (the composite index behind the SCD2 point-in-time loo
 from __future__ import annotations
 
 import json
-import resource
+try:
+    import resource  # only exists on Linux/Mac
+except ImportError:  # Windows
+    resource = None
 import shutil
 import time
 from pathlib import Path
@@ -62,8 +65,7 @@ def run_benchmark(n_customers: int, n_order_lines: int, seed: int, out_dir: Path
         "forced_reload_new_rows": sum(s["rows_inserted_new"] for s in forced["sources"]),
         "fact_rows": conn.execute("SELECT COUNT(*) FROM fact_order_line").fetchone()[0],
         "db_size_mb": round(cfg.db_path.stat().st_size / 1e6, 1),
-        "peak_rss_mb": round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024, 1),
-        "optimisation_scd2_lookup_index": {
+        "peak_rss_mb": round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024, 1) if resource else None,        "optimisation_scd2_lookup_index": {
             "what": f"point-in-time customer_key lookup for {sample} fact rows",
             "with_index_seconds": round(with_idx, 4), "without_index_seconds": round(without_idx, 4),
             "speedup_x": round(without_idx / with_idx, 1) if with_idx else None},
