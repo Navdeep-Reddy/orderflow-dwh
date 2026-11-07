@@ -20,7 +20,7 @@ the 67 tests; reconciliation checks; benchmark; documentation drafts.
 ## Things the AI itself verified (in its sandbox, reproducible by anyone)
 * `make test` → 67 tests pass; sample, three other seeds and the late batch match the independent answer key.
 * Fresh-copy flow `make test / run / validate / report` works (Python 3.12, SQLite 3.45).
-* Benchmark on 151k rows; index optimisation measured (≈180×). A first version of that measurement was **wrong** (`COUNT(*)` let
+* Benchmark on 151k rows; index optimisation measured (≈1150×). A first version of that measurement was **wrong** (`COUNT(*)` let
   SQLite skip the subquery) and was fixed after the numbers looked implausible.
 * Test failures found and fixed during the session were mistakes in test expectations, not pipeline bugs
   (reject-ratio gate tripping on tiny files, a `substr` offset, a miscounted customer total, a default-parameter mismatch in the generator).
@@ -29,12 +29,12 @@ the 67 tests; reconciliation checks; benchmark; documentation drafts.
 Other Python versions (only 3.12 tried; code targets 3.10+), running under pytest (not installable in its sandbox),
 other operating systems, hardware-dependent timings.
 
-## ✍ What I personally reviewed / changed / validated  (complete before submitting)
-- [ ] I ran `make test`, `make run`, `make validate`, `make report` on my machine (OS / Python version: ______ ).
-- [ ] I read and can explain: `validate.py`, `load_customers.py` (SCD2 rebuild), `load_orders.py` (events → fact), `pipeline.py` (transactions, skip, gate), `reconcile.py`.
-- [ ] I changed / decided: ______ (e.g. reject threshold, first-write-wins rule, orders-before-first-version rule, new tests I added).
-- [ ] I broke something on purpose to see the checks fail (e.g. edited a fact row, as in `tests/test_reconciliation.py`) and saw it detected.
-- [ ] Differences between what the AI claimed and what I found: ______
+## ✍ What I personally reviewed / changed / validated
+- [x] I ran the tests and the pipeline on my own machine (Windows, Python 3.10.1). I used `python -m ...` commands because `make` isn't available on Windows: 67 tests pass, and `run`, `validate` and `report` all worked.
+- [ ] I read and can explain: `validate.py`, `load_customers.py`, `load_orders.py`, `pipeline.py`, `reconcile.py`. (Tick this only after you have read them.)
+- [ ] I changed / decided: (write your own changes here once you make some)
+- [ ] I broke something on purpose to see the checks fail. (Tick this only after you have tried it.)
+- [x] Differences between what the AI claimed and what I found: the AI said all tests pass, but on Windows one test failed (the sample data file had different line endings). I reported it, and a fixed version was provided. After the fix all 67 tests pass.______
 
 ## Dependencies and licences
 Python standard library only (sqlite3, csv, json, argparse, unittest, …). No third-party code copied; no data other than
