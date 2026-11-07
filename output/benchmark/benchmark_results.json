@@ -1,36 +1,36 @@
 {
   "input_rows": {
-    "customers": 7922,
-    "orders": 143240,
-    "total": 151162
+    "customers": 157149,
+    "orders": 287381,
+    "total": 444530
   },
-  "generation_seconds": 3.12,
+  "generation_seconds": 16.62,
   "first_run": {
     "status": "SUCCESS",
-    "seconds": 10.471,
-    "rows_per_second": 14436,
+    "seconds": 83.994,
+    "rows_per_second": 5292,
     "reconciliation_passed": true,
     "stages_seconds": {
       "customers": {
-        "validate": 0.15,
-        "load": 0.24
+        "validate": 3.44,
+        "load": 15.05
       },
       "orders": {
-        "validate": 3.82,
-        "load": 5.32
+        "validate": 13.09,
+        "load": 40.62
       }
     }
   },
-  "rerun_same_input_seconds": 0.447,
-  "forced_reload_seconds": 7.115,
+  "rerun_same_input_seconds": 6.299,
+  "forced_reload_seconds": 47.945,
   "forced_reload_new_rows": 0,
-  "fact_rows": 50000,
-  "db_size_mb": 66.4,
-  "peak_rss_mb": 216.8,
+  "fact_rows": 100000,
+  "db_size_mb": 207.0,
+  "peak_rss_mb": null,
   "optimisation_scd2_lookup_index": {
     "what": "point-in-time customer_key lookup for 5000 fact rows",
-    "with_index_seconds": 0.0064,
-    "without_index_seconds": 1.1552,
-    "speedup_x": 180.7
+    "with_index_seconds": 0.093,
+    "without_index_seconds": 107.4663,
+    "speedup_x": 1155.9
   }
 }
