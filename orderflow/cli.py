@@ -9,6 +9,41 @@ from pathlib import Path
 
 from .config import Config
 
+def _cmd_benchmark(a) -> int:
+    from .benchmark import run_benchmark
+    print(json.dumps(run_benchmark(a.customers, a.order_lines, a.seed, Path(a.output_dir), a.batch_size), indent=2))
+    return 0
+def _cmd_verify(a) -> int:
+    from .verify import run_verification, summarise
+
+    results = run_verification(run_tests=not a.skip_tests)
+    counts = summarise(results)
+
+    print("\nORDERFLOW REQUIREMENT VERIFICATION")
+    print("=" * 60)
+
+    for result in results:
+        print(
+            f"[{result['status']:<6}] "
+            f"{result['requirement']}\n"
+            f"         Evidence: {result['evidence']}"
+        )
+
+    print("\nSUMMARY")
+    print("-" * 60)
+
+    for status, count in sorted(counts.items()):
+        print(f"{status}: {count}")
+
+    failures = counts.get("FAIL", 0)
+
+    if failures:
+        print("\nVerification completed with failures.")
+        return 1
+
+    print("\nVerification completed successfully.")
+    return 0
+
 
 def _setup_logging(level: str, output_dir: Path | None) -> None:
     handlers: list[logging.Handler] = [logging.StreamHandler(sys.stderr)]
@@ -28,6 +63,50 @@ def _cmd_generate(a) -> int:
     print(json.dumps({"out": a.out, "customers_rows": labels["customers"]["total_rows"],
                       "orders_rows": labels["orders"]["total_rows"],
                       "late_rows": (labels["orders_late"] or {}).get("total_rows", 0)}))
+    return 0
+def _cmd_dashboard(a) -> int:
+    from .db import connect
+    from .dashboard import build_dashboard
+    from .verify import run_verification
+
+    db_path = Path(a.db)
+    output_dir = Path(a.output_dir)
+
+    if not db_path.exists():
+        print(f"ERROR: Warehouse database not found: {db_path}")
+        print("Run the pipeline first using: python -m orderflow run")
+        return 1
+
+    # Run live requirement verification unless explicitly skipped.
+    checks = None
+    if not a.skip_verify:
+        print("Running live requirement verification...")
+        checks = run_verification()
+
+    # Build the dashboard.
+    conn = connect(db_path)
+
+    try:
+        dashboard_path = build_dashboard(
+            conn=conn,
+            out_path=output_dir / "dashboard.html",
+            checks=checks,
+            bench_path=output_dir / "benchmark" / "benchmark_results.json",
+        )
+    finally:
+        conn.close()
+
+    print(f"\nDashboard generated successfully:")
+    print(dashboard_path.resolve())
+
+    if checks is not None:
+        failures = sum(1 for c in checks if c["status"] == "FAIL")
+        print(f"Requirement checks: {len(checks)}")
+        print(f"Failed checks: {failures}")
+
+        if failures:
+            return 1
+
     return 0
 
 
@@ -126,9 +205,28 @@ def main(argv=None) -> int:
     b.add_argument("--output-dir", default="output/benchmark")
     b.set_defaults(fn=_cmd_benchmark)
 
+    # Verify project requirements
+    vf = sub.add_parser(
+        "verify",
+        help="run live verification of project requirements"
+    )
+    vf.add_argument("--skip-tests", action="store_true")
+    vf.set_defaults(fn=_cmd_verify)
+
+    # Generate dashboard
+    ds = sub.add_parser(
+        "dashboard",
+        help="generate HTML dashboard"
+    )
+    ds.add_argument("--db", default="output/warehouse.db")
+    ds.add_argument("--output-dir", default="output")
+    ds.add_argument("--skip-verify", action="store_true")
+    ds.set_defaults(fn=_cmd_dashboard)
+
     a = p.parse_args(argv)
     return a.fn(a)
 
+   
 
 if __name__ == "__main__":  # pragma: no cover
     raise SystemExit(main())

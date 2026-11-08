@@ -22,7 +22,7 @@ python3 --version                 # 3.10+ (developed/tested on 3.12, SQLite 3.45
 make test                         # 67 tests
 make run                          # loads data/sample into output/warehouse.db
 make validate report              # invariants + output/reports/analytical_report.md
-make bench                        # ~150k rows (see numbers below)
+make bench                        # ~444k rows (see numbers below)
 ```
 Without `make`: `python3 -m orderflow run --customers data/sample/customers.jsonl --orders data/sample/orders.csv`.
 
@@ -34,9 +34,8 @@ python -m orderflow validate
 python -m orderflow report
 python -m orderflow benchmark --customers 100000 --order-lines 100000
 ```
-CLI: `generate | run | validate | report | benchmark` (`python3 -m orderflow <cmd> -h`).
+CLI: `generate | run | validate | report | benchmark | verify | dashboard` (`python3 -m orderflow <cmd> -h`).
 Exit codes: `0` ok · `1` a source/run failed · `2` loaded but a reconciliation check failed.
-
 ## How to verify key behaviour (≈2 minutes)
 ```bash
 make test                                   # 67 tests, incl. ground-truth comparison against data/sample/expected/
@@ -46,7 +45,11 @@ python3 -m orderflow run --orders data/sample/orders_late.csv --as-of 2026-11-06
 python3 -m orderflow run --orders data/sample/edge_cases/orders_schema_change_missing_column.csv; echo $?                    # FAILED, exit 1, nothing loaded
 ```
 Expected outputs are captured in `output/execution_evidence.txt`, `output/test_results.txt` and `output/sample_run/`.
-
+## Dashboard and live requirement check
+```bash
+python -m orderflow verify            # re-checks every requirement of the brief live
+python -m orderflow dashboard         # writes output/dashboard.html, open it in a browser
+```
 ## Layout
 | Path | Purpose |
 |---|---|
